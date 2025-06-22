@@ -51,9 +51,9 @@ The system's workflow is designed to be simple and efficient. The producer captu
 
 ```mermaid
 graph TD
-    A[Producer - Camera<br>(productor_camara.py)] -- Sends Image (JSON + Base64) --> B(Kafka Topic<br>'taller_camara_stream');
-    B -- Receives Message --> C[Consumer - Classifier<br>(consumidor_clasificador.py)];
-    C -- Processes & Predicts --> D{Result<br>Make, Model, Confidence};
+    A["Producer - Camera<br>(productor_camara.py)"] -- "Sends Image (JSON + Base64)" --> B("Kafka Topic<br>'taller_camara_stream'");
+    B -- "Receives Message" --> C["Consumer - Classifier<br>(consumidor_clasificador.py)"];
+    C -- "Processes & Predicts" --> D{"Result<br>Make, Model, Confidence"};
 ```
 
 ---
@@ -166,6 +166,15 @@ This project serves as a solid foundation that can be extended in many ways:
 -   [ ] **Containerized Microservices:** Package the producer and consumer into their own Docker containers for easier deployment and scaling.
 -   [ ] **Advanced Error Handling:** Implement a more granular `try-except` block within the consumer's loop to handle "poison pill" messages without stopping the service.
 -   [ ] **Model Optimization:** Experiment with more modern architectures (e.g., `EfficientNetV2`, `Vision Transformers`) to improve accuracy and inference speed.
+
+---
+
+## ✍️ About the Author
+
+This project was developed by E. Sanchez as a comprehensive showcase of a real-world MLOps pipeline.
+
+* **GitHub:** [@E-sanchez03](https://github.com/E-sanchez03)
+* **LinkedIn:** `[Eugenio Sánchez Carreño](www.linkedin.com/in/eugenio-sanchez-carreno)`
 
 ---
 
