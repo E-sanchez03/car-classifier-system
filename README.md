@@ -174,7 +174,7 @@ This project serves as a solid foundation that can be extended in many ways:
 This project was developed by E. Sanchez as a comprehensive showcase of a real-world MLOps pipeline.
 
 * **GitHub:** [@E-sanchez03](https://github.com/E-sanchez03)
-* **LinkedIn:** `[Eugenio Sánchez Carreño](www.linkedin.com/in/eugenio-sanchez-carreno)`
+* **LinkedIn:** [Eugenio Sánchez Carreño](www.linkedin.com/in/eugenio-sanchez-carreno)
 
 ---
 
