@@ -1,4 +1,4 @@
-# 🚗 Real-time Car Classifier System with AI and Kafka
+# Real-time Car Classifier System with AI and Kafka
 
 <div align="center">
 
