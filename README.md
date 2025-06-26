@@ -1,10 +1,10 @@
-# Real-time Car Classifier System with AI and Kafka
+# 🚗 Real-time Car Classifier System with AI and Kafka
 
 <div align="center">
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow)](https://www.tensorflow.org/)
-[![Keras](https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras)](https://keras.io/)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow?style=for-the-badge)](https://huggingface.co/Euge57/car-classifier)
 [![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-231F20?style=for-the-badge&logo=apachekafka)](https://kafka.apache.org/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)](https://www.docker.com/)
 
@@ -17,13 +17,13 @@
 - [📝 About The Project](#-about-the-project)
 - [✨ Key Features](#-key-features)
 - [🏛️ System Architecture](#️-system-architecture)
+- [🤖 Model](#-model)
 - [🛠️ Tech Stack](#️-tech-stack)
 - [🚀 Installation and Setup](#-installation-and-setup)
-  - [Prerequisites](#prerequisites)
-  - [Installation Steps](#installation-steps)
 - [🕹️ Usage](#️-usage)
 - [📊 Dataset](#-dataset)
 - [🔮 Future Improvements](#-future-improvements)
+- [✍️ About the Author](#️-about-the-author)
 - [📄 License](#-license)
 
 ---
@@ -38,7 +38,7 @@ The architecture is decoupled into microservices that communicate via a message 
 
 ## ✨ Key Features
 
-* **High-Accuracy Image Classification:** Utilizes a pre-trained `ResNet50` model, fine-tuned on the CompCars dataset for detailed classification of vehicle models.
+* **High-Accuracy Image Classification:** Utilizes a pre-trained `ResNet50` model, fine-tuned for detailed classification of vehicle models.
 * **Real-time Data Pipeline:** Simulates a continuous data stream from a camera using **Apache Kafka**, an industry-standard technology for event streaming.
 * **Decoupled Architecture:** The system is divided into a **Producer** (the simulated camera) and a **Consumer** (the classification service), allowing them to operate and scale independently.
 * **Containerized Infrastructure:** The entire messaging backend (Kafka and its dependency, ZooKeeper) is cleanly and reproducibly managed via **Docker** and **Docker Compose**.
@@ -58,22 +58,24 @@ graph TD
 
 ---
 
+## 🤖 Model
+
+The classification model used in this project has been trained and fine-tuned on the CompCars dataset. The model artifacts are versioned and publicly available on the Hugging Face Hub.
+
+* **Hugging Face Repository:** [**Euge57/car-classifier**](https://huggingface.co/Euge57/car-classifier)
+
+You can download the `.keras` file and the associated class mappings directly from the repository to use within this system.
+
+---
+
 ## 🛠️ Tech Stack
 
 The key technologies and libraries used in this project are listed below:
 
-* **AI Modeling:**
-    * `TensorFlow 2.x` / `Keras 3`
-* **Data Streaming:**
-    * `Apache Kafka`
-* **Infrastructure & Containerization:**
-    * `Docker` / `Docker Compose`
-* **Language & Core Libraries:**
-    * `Python 3.10+`
-    * `kafka-python`
-    * `Pillow`
-    * `numpy`
-    * `scipy` (for preprocessing dataset metadata)
+* **AI Modeling:** `TensorFlow 2.x` / `Keras 3`
+* **Data Streaming:** `Apache Kafka`
+* **Infrastructure & Containerization:** `Docker` / `Docker Compose`
+* **Language & Core Libraries:** `Python 3.10+`, `kafka-python`, `Pillow`, `numpy`
 
 ---
 
@@ -81,91 +83,64 @@ The key technologies and libraries used in this project are listed below:
 
 Follow these steps to get the complete system running on your local environment.
 
+*(Instructions for running the services as Docker containers are detailed in the "Usage" section).*
+
 ### Prerequisites
 
 * [Docker](https://www.docker.com/products/docker-desktop/) and Docker Compose must be installed.
-* Python 3.10 or higher.
+* Python 3.10 or higher (for local development outside Docker).
 * `git` to clone the repository.
 
 ### Installation Steps
 
-1.  **Clone the repository to your local machine:**
+1.  **Clone the repository:**
     ```bash
     git clone [https://github.com/E-sanchez03/car-classifier-system.git](https://github.com/E-sanchez03/car-classifier-system.git)
     cd car-classifier-system
     ```
 
-2.  **Start the Kafka infrastructure with Docker Compose:**
-    This command will pull the necessary images and start the Kafka and ZooKeeper containers in the background.
-    ```bash
-    docker-compose up -d
-    ```
+2.  **Download Model Files:**
+    Download the model (`.keras`) and class names (`.json`) from the [Hugging Face Hub](https://huggingface.co/Euge57/car-classifier) and place them inside a `models/` directory.
 
-3.  **Create a virtual environment and install Python dependencies:**
-    It is a best practice to isolate project dependencies.
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    pip install -r requirements.txt
-    ```
-
-4.  **Prepare the model and data resources:**
-    * Place your trained model (e.g., `clasificador_coches_v4.keras`) and the class mapping file (e.g., `marcas_coches.json`) in the `models/` folder.
-    * Add some test images to the `data/imagenes_test/` folder.
+3.  **Prepare Test Data:**
+    Add some test images to the `data/imagenes_test/` folder.
 
 ---
 
 ## 🕹️ Usage
 
-To run the system, you will need to open **two separate terminals** in the project's root directory (with the virtual environment activated).
+The entire system, including the Python applications, can be launched with a single command using Docker Compose.
 
-1.  **In Terminal 1, start the Consumer:**
-    This script will load the model and wait to receive messages.
+1.  **Build and Run the Services:**
+    From the root directory of the project, run:
     ```bash
-    python consumidor_clasificador.py
+    docker-compose up --build
     ```
-    *Expected output:*
-    ```
-    Loading model and class names...
-    Model and classes loaded successfully!
-    Consumer listening on topic 'taller_camara_stream'...
-    ```
+    This command will:
+    * Build the Docker image for the Python services.
+    * Start the Kafka and ZooKeeper containers.
+    * Start the `producer` and `consumer` containers.
 
-2.  **In Terminal 2, start the Producer:**
-    This script will begin sending images from the test folder to the Kafka topic.
-    ```bash
-    python productor_camara.py
-    ```
-    *Expected output:*
-    ```
-    Producer started. Sending images every 5 seconds...
-    Sent: coche_bmw.jpg from camera cam01
-    Sent: coche_audi.png from camera cam01
-    ...
-    ```
+2.  **Observe the Output:**
+    The logs from all services will be streamed to your terminal. You will see the producer sending images and the consumer receiving them and printing the predictions.
 
-3.  **Observe the results:**
-    Return to Terminal 1. You will see the predictions printed in real-time as the consumer processes the images sent by the producer.
+3.  **Stop the System:**
+    Press `Ctrl+C` in the terminal to stop all services gracefully. To clean up, run `docker-compose down`.
 
 ---
 
 ## 📊 Dataset
 
-The model in this project was trained using the **CompCars (Comprehensive Cars) dataset**, which provides a wide variety of car images from different perspectives.
-
-For more information, you can visit the [official dataset page](http://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/).
+The model in this project was trained using the **CompCars (Comprehensive Cars) dataset**. For more information, you can visit the [official dataset page](http://mmlab.ie.cuhk.edu.hk/datasets/comp_cars/).
 
 ---
 
 ## 🔮 Future Improvements
 
-This project serves as a solid foundation that can be extended in many ways:
-
--   [ ] **Results Persistence:** Integrate a database (e.g., PostgreSQL, MongoDB) to store all predictions generated by the consumer.
--   [ ] **Visualization Dashboard:** Create a web dashboard with **Streamlit** or **Flask** to visualize statistics and classified cars in real-time.
--   [ ] **Containerized Microservices:** Package the producer and consumer into their own Docker containers for easier deployment and scaling.
--   [ ] **Advanced Error Handling:** Implement a more granular `try-except` block within the consumer's loop to handle "poison pill" messages without stopping the service.
--   [ ] **Model Optimization:** Experiment with more modern architectures (e.g., `EfficientNetV2`, `Vision Transformers`) to improve accuracy and inference speed.
+-   [ ] **Results Persistence:** Integrate a database (e.g., PostgreSQL) to store all predictions.
+-   [ ] **Visualization Dashboard:** Create a web dashboard with **Streamlit** or **Flask** to visualize statistics.
+-   [ ] **Advanced Error Handling:** Implement a more granular `try-except` block in the consumer to handle "poison pill" messages.
+-   [ ] **Model Optimization:** Experiment with more modern architectures (e.g., `EfficientNetV2`, `Vision Transformers`).
 
 ---
 

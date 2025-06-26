@@ -6,9 +6,9 @@ import base64
 from kafka import KafkaProducer
 
 # --- Configuración ---
-KAFKA_BROKER = 'localhost:9092'
+KAFKA_BROKER = 'broker:29092'
 KAFKA_TOPIC = 'taller_camara_stream'
-IMAGE_DIR = './data/imagenes_test'
+IMAGE_DIR = '/app/data/imagenes_test'
 CAMERA_ID = 'cam01'
 
 # --- Inicializar Productor de Kafka ---

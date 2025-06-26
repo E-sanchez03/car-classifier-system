@@ -7,10 +7,10 @@ from PIL import Image
 import io
 
 # --- Configuración ---
-KAFKA_BROKER = 'localhost:9092'
+KAFKA_BROKER = 'broker:29092'
 KAFKA_TOPIC = 'taller_camara_stream'
-MODEL_PATH = './models/clasificador_coches_v4.keras'
-CLASS_NAMES_PATH = './models/marcas_coches.json'
+MODEL_PATH = '/app/models/clasificador_coches_v4.keras'
+CLASS_NAMES_PATH = '/app/models/marcas_coches.json'
 IMG_SIZE = (224, 224)
 
 # --- Cargar Modelo y Clases ---
